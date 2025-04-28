@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liked Clubs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="liked-container">
+    <h2 style="font-size: 48px; color: white; margin-bottom: 20px;">Your Club Picks</h2>
+    <div id="liked-stack">
+        {% for club in clubs %}
+        <div class="liked-card">
+          <h3>{{ club.name }}</h3>
+          <p class="club-description">{{ club.description }}</p>
+          {% if club.email %}
+          <p class="email">{{ club.email }}</p>
+          {% endif %}
+          <div class="chat-button-wrapper">
+            <button class="chat-icon-button" onclick="openChat('{{ club.name }}')">
+              <span class="chat-icon">💬</span>
+            </button>
+            
+          </div>
+      </div>      
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Popup Overlay -->
+<div id="chat-popup" style="display: none;">
+    <div id="chat-popup-content">
+        <span id="close-chat" onclick="closeChat()">✖</span>
+        <iframe id="chat-iframe" frameborder="0"></iframe>
+    </div>
+</div>
+
+<script>
+  function openChat(clubName) {
+      document.getElementById('chat-popup').style.display = 'flex';
+      document.getElementById('chat-iframe').src = '/chat?club=' + encodeURIComponent(clubName);
+  }
+  
+  function closeChat() {
+      document.getElementById('chat-popup').style.display = 'none';
+  }
+  </script>
+  
+
+</body>
+</html>
